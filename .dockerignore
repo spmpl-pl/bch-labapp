@@ -4,3 +4,5 @@ venv
 .env
 .git
 config
+Credentials.json
+GuestBookEntries.json
