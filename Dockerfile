@@ -7,4 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "app:app"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
