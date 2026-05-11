@@ -5,8 +5,8 @@ This project was created to showcase WAF capabilities including API Security, WA
 and others. More documentation will come later. 
 
 ## How to run it.
-At the moment, it is available as Python Flask project. The docker contaner version will come later. At the moment, you can run it
-with apache, nginx, or any other server which supports WSGI. Alternatively, you can build your own docker image and run it whenever you want.  
+At the moment, it is available as Python Flask project. The docker contaner version will come later. You can run it
+with Apache, Nginx, or any other server which supports WSGI. Alternatively, you can build your own docker image and run it wherever you want. 
 
 ## Demos
 
