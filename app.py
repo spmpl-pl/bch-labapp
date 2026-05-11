@@ -8,10 +8,7 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI, OpenAIError
 
-load_dotenv("/var/www/spm-web-lab/.env")
-
 app = Flask(__name__)
-
 
 
 app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
@@ -22,6 +19,12 @@ file_guestbook = Path( os.path.join(file_basedir, "GuestBookEntries.json"))
 file_productdb = os.path.join(file_basedir, "DBs", "ProductDB.json")
 file_productcategorydb = os.path.join(file_basedir, "DBs", "ProductCategoryDB.json")
 file_userdb = os.path.join(file_basedir, "DBs", "UserDB.json")
+
+
+with open("config/config.json", "r") as f:
+    config = json.load(f)
+
+
 
 ###### LOAD DATA FUNCTIONS 
 
@@ -472,12 +475,13 @@ def api_ChatBot():
     try:
         if data["protected"]: 
 
-            client = OpenAI(base_url=os.getenv("AIFIREWALL_BASE_URL"), 
+            client = OpenAI(base_url=config["AIFIREWALL_BASE_URL"], 
                     default_headers={
-                        "x-imperva-api-key": os.getenv("AIFIREWALL_API_KEY"),
+                        "x-imperva-api-key": config["AIFIREWALL_API_KEY"],
                         "x-user-id": session.get("username"),
-                        "x-target-url": os.getenv("ORIGINAL_LLM_PROVIDER_URL")
-                        })
+                        "x-target-url": config["ORIGINAL_LLM_PROVIDER_URL"]
+                        }, 
+                    api_key=config["OPENAI_API_KEY"])
             if "<USER_INPUT>" in user_message or "</USER_INPUT>" in user_message:
                 return {"error": "User input contains invalid tags."}, 400
 
@@ -492,7 +496,7 @@ def api_ChatBot():
             AIresponse = response.choices[0].message.content
 
         else:
-            client = OpenAI() 
+            client = OpenAI( api_key=config["OPENAI_API_KEY"] ) 
 
             input_prompt = [
                     {"role": "system", "content": system_prompt},
