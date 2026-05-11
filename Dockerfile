@@ -10,4 +10,6 @@ COPY . .
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+COPY special/config.json config/config.json
+
 ENTRYPOINT ["/entrypoint.sh"]
