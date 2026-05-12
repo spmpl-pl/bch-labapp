@@ -482,6 +482,7 @@ def api_ChatBot():
                         "x-target-url": config["ORIGINAL_LLM_PROVIDER_URL"]
                         }, 
                     api_key=config["OPENAI_API_KEY"])
+            
             if "<USER_INPUT>" in user_message or "</USER_INPUT>" in user_message:
                 return {"error": "User input contains invalid tags."}, 400
 
@@ -489,10 +490,9 @@ def api_ChatBot():
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": f"<USER_INPUT>{user_message}</USER_INPUT>"}
                 ]
-            response = client.chat.completions.create(
-                model="gpt-5-nano",
-                messages=input_prompt,
-            )
+            
+            response = client.chat.completions.create( model="gpt-5-nano", messages=input_prompt )
+            
             AIresponse = response.choices[0].message.content
 
         else:
