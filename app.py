@@ -21,8 +21,12 @@ file_productcategorydb = os.path.join(file_basedir, "DBs", "ProductCategoryDB.js
 file_userdb = os.path.join(file_basedir, "DBs", "UserDB.json")
 
 
-with open("config/config.json", "r") as f:
-    config = json.load(f)
+def load_config():
+    config_path = os.path.join(file_basedir, "config", "config.json")
+    with open(config_path, "r") as f:
+        return json.load(f)
+
+config = load_config()
 
 
 
