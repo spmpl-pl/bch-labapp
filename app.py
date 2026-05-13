@@ -106,13 +106,13 @@ def chatbot_page():
     return render_template('chatbot.html')
 
 
-#@app.route('/favicon.ico')
-#def favicon():
-#    return send_from_directory(
-#        app.static_folder,
-#        'favicon.ico',
-#        mimetype='image/vnd.microsoft.icon'
-#    )
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(
+        app.static_folder,
+        'favicon.ico',
+        mimetype='image/vnd.microsoft.icon'
+    )
 
 ###### API FUNCTIONS 
 
