@@ -44,6 +44,7 @@ docker run -d \
   --name bch-labapp \
   -p 127.0.0.1:8000:8000 \
   --restart unless-stopped \
+  -v \[PATH\]config.json:/app/config/config.json:ro \
   bartoszchm/bch-labapp
 ```
 
