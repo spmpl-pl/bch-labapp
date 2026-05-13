@@ -44,7 +44,7 @@ docker run -d \
   --name bch-labapp \
   -p 127.0.0.1:8000:8000 \
   --restart unless-stopped \
-  -v \[PATH\]config.json:/app/config/config.json:ro \
+  -v config.json:/app/config/config.json:ro \
   bartoszchm/bch-labapp
 ```
 
@@ -82,8 +82,8 @@ docker compose up -d
 ## Notes
 
 - The container is intended to run behind a reverse proxy such as NGINX or Apache in production environments.
-- Binding the service to `127.0.0.1` is recommended when using a reverse proxy.
+- Binding the service to `127.0.0.1` is recommended when using a reverse proxy. 
 - Persistent configuration should be mounted using Docker volumes instead of copying files into the container.
 
----
+
 
