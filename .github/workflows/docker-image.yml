@@ -1,0 +1,31 @@
+name: BCH Build and Push Docker Image
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate timestamp
+        id: vars
+        run: echo "TIMESTAMP=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: |
+          docker build . \
+            --file Dockerfile \
+            --tag bartoszchm/bch-labapp:latest \
+            --tag bartoszchm/bch-labapp:${TIMESTAMP}
+
+      - name: Push Docker images
+        run: |
+          docker push bartoszchm/bch-labapp:latest
+          docker push bartoszchm/bch-labapp:${TIMESTAMP}
