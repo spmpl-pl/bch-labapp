@@ -469,6 +469,10 @@ def api_ChatBot():
     if ( "username" not in session ):
         return jsonify({"error_message": "Not Authenticated"}), 401
     
+    userid = session.get("userid")
+    if ( int(userid) <= 200 ):
+        return jsonify({"error_message": "For security reasons - the predefined users don't have access to Chatbot. Please use custom users with ID higher than 200 to access Chatbot."}), 401
+    
     data = request.get_json()
 
     if not data or "message" not in data:
