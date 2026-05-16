@@ -35,6 +35,16 @@ Create your configuration file before starting the container.
 
 ---
 
+### 2. Prepare User Database
+
+Out of the box, the application includes a static, pre-configured database of 200 mock users, complete with randomized credentials and profile data. This dataset is located in config-templates/UserDB.json, with passwords securely stored as MD5 hashes. For quick reference, a complete list of these predefined usernames and plain-text passwords can be found in other/Credentials.json.
+
+If you want to add custom users, follow the the following steps:
+1. Download the config-templates/UserDB.json file to your local disk.
+2. Add additional users to the file. The password is MD5 hash.
+3. Run a docker with virtual volume by -v parameter as docker command or by defining the additional volume in docker compose file like config.json:/app/config/config.json:ro
+
+
 ## Quick Start
 
 Run the application using:
