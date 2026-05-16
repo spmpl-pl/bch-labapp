@@ -11,5 +11,6 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 COPY config-templates/config.json config/config.json
+COPY config-templates/UserDB.json DBs/UserDB.json
 
 ENTRYPOINT ["/entrypoint.sh"]
