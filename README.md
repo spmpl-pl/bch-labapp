@@ -38,7 +38,7 @@ Then browse to:
 http://localhost:8000
 ```
 
----
+
 
 ### Customize the Application
 
@@ -138,9 +138,9 @@ networks:
 #### Start the application with:
 
 In you application directory you should have the following files:
-1. config.json (if you want to customize config)
-2. UserDB.json (if you want to mount custom User DB)
-3. docker-compose.yml
+1. `config.json` (if you want to customize config)
+2. `UserDB.json` (if you want to mount custom User DB)
+3. `docker-compose.yml`
 
 Run the following command to pull and start the project. Please ensure you are in the project directory which contains all the files listed above. 
 
@@ -152,7 +152,6 @@ Since the `restart: unless-stopped` config is provided, the container will stay 
 
 Now you can access your application with the address `http://localhost:8000`. 
 
----
 
 ## Upgrading the App
 
