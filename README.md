@@ -7,9 +7,9 @@ It can be used for testing, training, presentations, proof-of-concept deployment
 The platform currently includes demonstrations for:
 
 - API Security
-- Web Application Firewall (WAF) protection
+- WAF protection
 - Advanced Bot Protection
-- AI Firewall scenarios
+- AI Application Security scenarios
 - Reverse proxy integrations
 - Containerized application deployments
 
@@ -46,53 +46,71 @@ If you want to customize the application, follow the instructions below.
 
 #### 1. Prepare Configuration
 
+Create an application foler to store configuration files in your home directory. For example:
+
+```bash
+mkdir -p ~/apps/bch-bchapp
+cd ~/apps/bch-bchapp
+```
+
+#### 2. Prepare Configuration
+
 Some features — especially the AI Firewall demonstrations — require a configuration file. The image ships with a default configuration file, but you can create and use a custom configuration file.
 
 If you want to use a custom configuration, follow these steps:
 
-1. Copy the `config-templates/config.json` file to your local project directory.
+1. Copy the `config-templates/config.json` file to your local project directory created in step 1. 
 2. Adjust the configuration file as needed.
-3. Mount the file into your container using volumes (see examples below).
+
 
 ---
 
-#### 2. Prepare User Database
+#### 3. Prepare User Database
 
 Out of the box, the application includes a static, pre-configured database of 200 mock users, complete with randomized credentials and profile data. This dataset is located in `config-templates/UserDB.json`, with passwords securely stored as MD5 hashes. For quick reference, a complete list of predefined usernames and plain-text passwords can be found in `other/Credentials.json`.
 
 If you want to add custom users, follow these steps:
 
-1. Copy the `config-templates/UserDB.json` file to your local project directory.
-2. Add additional users to the file. Passwords must be MD5-hashed.
-3. Mount the file into your container using volumes (see examples below).
+1. Copy the `config-templates/UserDB.json` file to your local project directory created in step 1.
+2. Generate md5 hash for the password. Example command to create md5 hash for password test is `echo -n "test" | openssl md5` which result with `098f6bcd4621d373cade4e832627b4f6`
+3. Add additional users to the file. Example below.
 
----
+Example entry addedd to `UserDB.json` below the default user list. Please make sure you add a coma after the last entry. 
 
-### Run the Application Using Docker
-
-Run the application using Docker:
-
-```bash
-docker run -d \
-  --name bch-labapp \
-  -p 8000:8000 \
-  --restart unless-stopped \
-  -v ./config.json:/app/config/config.json:ro \
-  -v ./UserDB.json:/app/DBs/UserDB.json:ro \
-  bartoszchm/bch-labapp
+```json
+  "201": {
+    "first_name": "Bartosz",
+    "last_name": "Chmielewski",
+    "ssn": "218-59-9943",
+    "gender": "male",
+    "dob": 19841130,
+    "phonenum": "(330)410-8681",
+    "email": "bartosz.chmielewski@randomdomain.com",
+    "cc_number": 5255166842103430,
+    "streetaddr": "36563 Alejandrin Points Suite 520",
+    "city": "Warszawa",
+    "state": "MZ",
+    "zipcode": "26039-3972",
+    "country": "Poland",
+    "username": "bartoszch",
+    "password": "098f6bcd4621d373cade4e832627b4f6"
+  }
 ```
 
-> 💡 **Note:** Only include the `-v` lines if you are using a custom `config.json` or `UserDB.json`. Otherwise, omit those parameters.
+You can validate your file format with the following command:
+```bash
+jq . file.json
+```
 
----
-
-## Recommended: Docker Compose
+#### 4. Create Docker Compose Definition. 
 
 For production or long-term deployments, using Docker Compose is recommended.
 
 Example `docker-compose.yml`:
 
 ```yaml
+name: bch-labapp
+
 services:
   bch-labapp:
     image: bartoszchm/bch-labapp:latest
@@ -101,11 +119,18 @@ services:
     restart: unless-stopped
 
     ports:
-      - "127.0.0.1:8000:8000"
+      - "8000:8000"
 
     volumes:
-      - ./config.json:/app/config/config.json:ro  # Needed only if you want to use a custom configuration
-      - ./UserDB.json:/app/DBs/UserDB.json:ro     # Needed only if you want to use a custom user database
+      - ~/apps/bch-app/config.json:/app/config/config.json:ro  # Needed only if you want to use a custom configuration
+      - ~/apps/bch-app/UserDB.json:/app/DBs/UserDB.json:ro     # Needed only if you want to use a custom user database
+
+    networks: 
+      - default
+
+networks:
+  default:
+    name: bch-labapp-network
 ```
 
 > 💡 **Note:** Only include the `volumes` lines if you are using a custom `config.json` or `UserDB.json`. Otherwise, omit them.
@@ -116,9 +141,15 @@ Start the application with:
 docker compose up -d
 ```
 
----
+Since the `restart: unless-stopped` config is provided, the container will stay up as long as the OS is up or unless stopped manually. 
 
-## Notes
 
-- The container is intended to run behind a reverse proxy such as NGINX or Apache in production environments.
-- Binding the service to `127.0.0.1` is recommended when using a reverse proxy.
+## Upgrading the App
+
+If you use docker compose, please issue the commands below to upgrade the app to the newest version. 
+
+```bash
+docker compose pull
+docker compose up -d
+```
+

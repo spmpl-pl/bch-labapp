@@ -406,9 +406,9 @@ def api_addcoupon_post():
         return jsonify({"error_message": "cCODE must be a string"}), 400
 
     if len(cPARTNER) != 3:
-        return jsonify({"error_message": "cPARTNER must be exactly 3 characters"}), 400
+        return jsonify({"error_message": "cPARTNER must be exactly 3 digits."}), 400
     if len(cCODE) != 6:
-        return jsonify({"error_message": "cCODE must be exactly 6 characters"}), 400
+        return jsonify({"error_message": "cCODE must be exactly 6 digits and starts with 12345."}), 400
 
     if not cCODE.startswith("12345"):
         return jsonify({"error_message": "Invalid code"}), 400
