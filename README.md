@@ -44,7 +44,7 @@ http://localhost:8000
 
 If you want to customize the application, follow the instructions below.
 
-#### 1. Prepare Configuration
+#### 1. Prepare Configuration Folder
 
 Create an application foler to store configuration files in your home directory. For example:
 
@@ -53,7 +53,7 @@ mkdir -p ~/apps/bch-bchapp
 cd ~/apps/bch-bchapp
 ```
 
-#### 2. Prepare Configuration
+#### 2. Prepare Configuration File
 
 Some features — especially the AI Firewall demonstrations — require a configuration file. The image ships with a default configuration file, but you can create and use a custom configuration file.
 
@@ -62,8 +62,6 @@ If you want to use a custom configuration, follow these steps:
 1. Copy the `config-templates/config.json` file to your local project directory created in step 1. 
 2. Adjust the configuration file as needed.
 
-
----
 
 #### 3. Prepare User Database
 
@@ -75,7 +73,7 @@ If you want to add custom users, follow these steps:
 2. Generate md5 hash for the password. Example command to create md5 hash for password test is `echo -n "test" | openssl md5` which result with `098f6bcd4621d373cade4e832627b4f6`
 3. Add additional users to the file. Example below.
 
-Example entry addedd to `UserDB.json` below the default user list. Please make sure you add a coma after the last entry. 
+Example entry addedd to `UserDB.json` below the default user list. Please make sure all entries are separated by comma. 
 
 ```json
   "201": {
@@ -99,12 +97,12 @@ Example entry addedd to `UserDB.json` below the default user list. Please make s
 
 You can validate your file format with the following command:
 ```bash
-jq . file.json
+jq . UserDB.json
 ```
 
 #### 4. Create Docker Compose Definition. 
 
-For production or long-term deployments, using Docker Compose is recommended.
+For production or long-term deployments, using Docker Compose is recommended. Plaese create the docker compose file in your appliation directory created in step 1. 
 
 Example `docker-compose.yml`:
 
@@ -135,7 +133,16 @@ networks:
 
 > 💡 **Note:** Only include the `volumes` lines if you are using a custom `config.json` or `UserDB.json`. Otherwise, omit them.
 
-Start the application with:
+
+
+#### Start the application with:
+
+In you application directory you should have the following files:
+1. config.json (if you want to customize config)
+2. UserDB.json (if you want to mount custom User DB)
+3. docker-compose.yml
+
+Run the following command to pull and start the project. Please ensure you are in the project directory which contains all the files listed above. 
 
 ```bash
 docker compose up -d
@@ -143,6 +150,9 @@ docker compose up -d
 
 Since the `restart: unless-stopped` config is provided, the container will stay up as long as the OS is up or unless stopped manually. 
 
+Now you can access your application with the address `http://localhost:8000`. 
+
+---
 
 ## Upgrading the App
 
