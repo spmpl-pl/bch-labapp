@@ -4,7 +4,15 @@ content %}
 <!-- Main content -->
 <h1>API Panel</h1>
 
-<!-- GetGetSession Section -->
+<p>
+  This panel provides direct access to selected APIs, allowing you to construct and send custom requests and inspect the corresponding responses. 
+  It is intended for testing API behavior, including how endpoints handle different inputs, edge cases, and non-standard or unexpected parameters.
+</p>
+<br><br>
+
+<hr>
+
+
 <p>
   <b>GetSession (GET /api/GetSession)</b><br />
   This function return session information including first name, last name,
@@ -17,6 +25,7 @@ content %}
 
 <br />
 
+<br><br><hr>
 <p>
   <b>GetSum (POST /api/GetSum)</b><br />
   This function accepts two integers (arg1 and arg2) and returns sum of these.
@@ -30,6 +39,7 @@ content %}
 
 <br />
 
+<br><br><hr>
 <p>
   <b>ReflectInput (POST /api/ReflectInput)</b><br />
   This function reflect the input in the data in the response. 
@@ -42,6 +52,7 @@ content %}
 
 <br />
 
+<br><br><hr>
 <p>
   <b>GetProductsByID (POST /api/GetProductByID)</b><br />
   This function accepts one integer (pID) and returns corresponding product
@@ -54,6 +65,8 @@ content %}
 <div id="GetProductByIDResult" class="result"></div>
 
 <br />
+
+<br><br><hr>
 <p>
   <b>GetProductsByCategory (POST /api/GetProductsByCategory)</b><br />
   This function accepts one integer (pCAT) and returns corresponding products
@@ -66,6 +79,7 @@ content %}
 <div id="GetProductsByCategoryResult" class="result"></div>
 <br />
 
+<br><br><hr>
 <p>
   <b>GetCategories (GET GetCategories)</b><br />
   This function returns categoris for products in the product database.
@@ -77,6 +91,7 @@ content %}
 <div id="GetCategoriesResult" class="result"></div>
 <br />
 
+<br><br><hr>
 <p>
   <b>AddToCart (POST /api/AddToCart)</b><br />
   This function accepts two integers (pID and pQTY) and add a product to the cart.
@@ -88,6 +103,7 @@ content %}
 <div id="AddToCartResult" class="result"></div>
 <br />
 
+<br><br><hr>
 <p>
   <b>GetCart (GET GetCart)</b><br />
   This function returns the items in the cart.
@@ -110,6 +126,7 @@ content %}
 <div id="GetCartInfoResult" class="result"></div>
 <br />
 
+<br><br><hr>
 <p>
   <b>AddCoupon (POST /api/AddCoupon)</b><br />
   This function accepts two integers (cPARTNER and cCODE) and add a coupon to the list.
@@ -132,6 +149,7 @@ content %}
 <div id="GetCouponsResult" class="result"></div>
 <br />
 
+<br><br><hr>
 <p>
   <b>Get User Data (POST /api/GetUserData)</b><br />
   This function accepts one integer (UserID) and returns corresponding user

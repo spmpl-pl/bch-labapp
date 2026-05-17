@@ -4,11 +4,18 @@ content %}
 <!-- Main content -->
 <h1>WAF Panel</h1>
 
-
 <p>
-  <b>Get Origin Headers</b><br />
-  This function returns the origin server headers (received by the origin server). To interpret the client
-  classification headers, visit [
+  This panel provides a set of essential tools designed to support testing and validation of WAF functionality. It allows users 
+  to simulate different request patterns, observe security responses, and verify how effectively protection rules are applied in a 
+  controlled environment.
+</p>
+<br><br>
+
+<hr>
+<p>
+  <b>Get Origin Server Headers</b><br />
+  This function returns the origin server headers (received by this app). To interpret the client
+  classification headers in CWAF, visit [
   <a
     href="https://docs-cybersec.thalesgroup.com/bundle/cloud-application-security/page/settings/client-classification.htm"
     target="_blank"
@@ -20,6 +27,7 @@ content %}
 <div id="GetHeadersResult" class="result"></div>
 <br />
 
+<br><br><hr>
 <p>
   <b>Generate BOLA Script</b><br />
   Click "Cenerate BOLA Script" to generate ready-to-go BOLA exploitation one-line bash script.
@@ -30,6 +38,7 @@ content %}
 <div id="GenerateBOLAResult" class="result"></div>
 <br />
 
+<br><br><hr>
 <p>
   <b>Run Brute-Force Attack</b><br />
   This script will generate brute-force attack against authentication endpoints. 
@@ -45,6 +54,7 @@ content %}
 
 <br />
 
+<br><br><hr>
 <p>
   <b>Run WAF Attack</b><br />
   You can select the attack template and send the malicious payload towards the application. You can also provide
@@ -59,6 +69,7 @@ content %}
 <div id="WAFAttackResult" class="result"></div>
 <br />
 
+<br><br><hr>
 <p>
   <b>Test WAF/ABP Challenges</b><br />
   Please select one of the the available challenges and they WAF will be forced to run this
@@ -77,6 +88,7 @@ content %}
 </div>
 <br />
 
+<br><br><hr>
 <p>
   <b>Run Request Flood Attack</b><br />
   This script will generate a large amoung of request sent to /api/ReflectInput endpoint. This endpoint
@@ -89,6 +101,7 @@ content %}
 
 <br />
 
+<br><br><hr>
 <p>
   <b>Upload an (infected) file</b><br />
   This script emulate the file upload activity. You can provide file name and payload. You can also select
