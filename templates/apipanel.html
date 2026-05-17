@@ -14,7 +14,7 @@ content %}
 
 
 <p>
-  <b>GetSession (GET /api/GetSession)</b><br />
+  <b>GET /api/GetSession</b><br />
   This function return session information including first name, last name,
   userid and username. Only GET method is supported.
 </p>
@@ -27,7 +27,7 @@ content %}
 
 <br><br><hr>
 <p>
-  <b>GetSum (POST /api/GetSum)</b><br />
+  <b>POST /api/GetSum</b><br />
   This function accepts two integers (arg1 and arg2) and returns sum of these.
   First parameter has input validation implemented, while the second doesn't (it
   return server error). Supported methods: POST. Authentication not required.
@@ -41,7 +41,7 @@ content %}
 
 <br><br><hr>
 <p>
-  <b>ReflectInput (POST /api/ReflectInput)</b><br />
+  <b>POST /api/ReflectInput</b><br />
   This function reflect the input in the data in the response. 
 </p>
 <input type="text" id="ReflectInputInput" placeholder="Any input" />
@@ -54,7 +54,7 @@ content %}
 
 <br><br><hr>
 <p>
-  <b>GetProductsByID (POST /api/GetProductByID)</b><br />
+  <b>POST /api/GetProductByID</b><br />
   This function accepts one integer (pID) and returns corresponding product
   details. Supported methods: POST. Authentication not required.
 </p>
@@ -68,7 +68,7 @@ content %}
 
 <br><br><hr>
 <p>
-  <b>GetProductsByCategory (POST /api/GetProductsByCategory)</b><br />
+  <b>POST /api/GetProductsByCategory</b><br />
   This function accepts one integer (pCAT) and returns corresponding products
   list. Supported methods: POST. Authentication not required.
 </p>
@@ -81,7 +81,7 @@ content %}
 
 <br><br><hr>
 <p>
-  <b>GetCategories (GET GetCategories)</b><br />
+  <b>GET GetCategories</b><br />
   This function returns categoris for products in the product database.
   Supported method: GET. Authetnication not required. 
 </p>
@@ -93,7 +93,7 @@ content %}
 
 <br><br><hr>
 <p>
-  <b>AddToCart (POST /api/AddToCart)</b><br />
+  <b>POST /api/AddToCart</b><br />
   This function accepts two integers (pID and pQTY) and add a product to the cart.
   Supported methods: POST. Authentication is required.
 </p>
@@ -105,7 +105,7 @@ content %}
 
 <br><br><hr>
 <p>
-  <b>GetCart (GET GetCart)</b><br />
+  <b>GET /api/GetCart</b><br />
   This function returns the items in the cart.
   Supported method: GET. Authetnication is required. 
 </p>
@@ -116,7 +116,7 @@ content %}
 <br />
 
 <p>
-  <b>GetCartInfo (GET GetCartInfo)</b><br />
+  <b>GET /api/GetCartInfo</b><br />
   This function returns the summary of the cart.
   Supported method: GET. Authetnication is required. 
 </p>
@@ -128,7 +128,7 @@ content %}
 
 <br><br><hr>
 <p>
-  <b>AddCoupon (POST /api/AddCoupon)</b><br />
+  <b>POST /api/AddCoupon</b><br />
   This function accepts two integers (cPARTNER and cCODE) and add a coupon to the list.
   Supported methods: POST. Authentication is required.
 </p>
@@ -139,7 +139,7 @@ content %}
 <br />
 
 <p>
-  <b>GetCoupons (GET GetCoupons)</b><br />
+  <b>GET GetCoupons</b><br />
   This function returns the list of coupons.
   Supported method: GET. Authetnication is required. 
 </p>
@@ -151,7 +151,7 @@ content %}
 
 <br><br><hr>
 <p>
-  <b>Get User Data (POST /api/GetUserData)</b><br />
+  <b>POST /api/GetUserData</b><br />
   This function accepts one integer (UserID) and returns corresponding user
   details. Supported methods: POST. Authentication required. SQL injection
   vulnerability present (try: ' OR 1 = 1 ). BOLA vulnerability (see BOLA script in 
@@ -163,7 +163,7 @@ content %}
 
 <br />
 <p>
-  <b>Guestbook (POST /api/GuestBook)</b><br />
+  <b>POST /api/GuestBook</b><br />
   This function accepts one text parameter (message) and adds the message to the
   guestbook. Supported methods: GET, POST, DELETE. Authentication required but
   not correctly implemented for POST method.
