@@ -21,14 +21,6 @@ file_productcategorydb = os.path.join(file_basedir, "DBs", "ProductCategoryDB.js
 file_userdb = os.path.join(file_basedir, "DBs", "UserDB.json")
 
 
-def load_config():
-    config_path = os.path.join(file_basedir, "config", "config.json")
-    with open(config_path, "r") as f:
-        return json.load(f)
-
-config = load_config()
-
-
 
 ###### LOAD DATA FUNCTIONS 
 
@@ -491,13 +483,13 @@ def api_ChatBot():
     try:
         if data["protected"]: 
 
-            client = OpenAI(base_url=config["AIFIREWALL_BASE_URL"], 
+            client = OpenAI(base_url=os.getenv("AIFIREWALL_BASE_URL"), 
                     default_headers={
-                        "x-imperva-api-key": config["AIFIREWALL_API_KEY"],
+                        "x-imperva-api-key": os.getenv("AIFIREWALL_API_KEY"),
                         "x-user-id": session.get("username"),
-                        "x-target-url": config["ORIGINAL_LLM_PROVIDER_URL"]
+                        "x-target-url": os.getenv("ORIGINAL_LLM_PROVIDER_URL")
                         }, 
-                    api_key=config["OPENAI_API_KEY"])
+                    api_key=os.getenv("OPENAI_API_KEY"))
             
             if "<USER_INPUT>" in user_message or "</USER_INPUT>" in user_message:
                 return {"error": "User input contains invalid tags."}, 400
@@ -512,7 +504,7 @@ def api_ChatBot():
             AIresponse = response.choices[0].message.content
 
         else:
-            client = OpenAI( api_key=config["OPENAI_API_KEY"] ) 
+            client = OpenAI( api_key=os.getenv("OPENAI_API_KEY") ) 
 
             input_prompt = [
                     {"role": "system", "content": system_prompt},
