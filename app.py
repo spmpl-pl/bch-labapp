@@ -14,19 +14,30 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
 app.config["SESSION_COOKIE_HTTPONLY"] = False
 
-file_basedir = os.path.dirname(os.path.abspath(__file__))
-file_guestbook = Path( os.path.join(file_basedir, "DBs", "GuestBookEntries.json"))
-file_productdb = os.path.join(file_basedir, "DBs", "ProductDB.json")
-file_productcategorydb = os.path.join(file_basedir, "DBs", "ProductCategoryDB.json")
-file_userdb = os.path.join(file_basedir, "DBs", "UserDB.json")
+file_basedir = Path(__file__).resolve().parent
 
+file_guestbook = file_basedir / "DBs" / "GuestBookEntries.json"
+file_productdb = file_basedir / "DBs" / "ProductDB.json"
+file_productcategorydb = file_basedir / "DBs" / "ProductCategoryDB.json"
+file_userdb_default = file_basedir / "DBs" / "UserDB-Default.json"
+file_userdb_custom = file_basedir / "DBs" / "UserDB-Custom.json"
 
 
 ###### LOAD DATA FUNCTIONS 
 
 def load_UserDB():
-    with open(file_userdb) as f:
-        return json.load(f)
+    users = {}
+
+    with file_userdb_default.open("r") as f:
+        users.update(json.load(f))
+
+    if file_userdb_custom.exists():
+        with file_userdb_custom.open("r") as f:
+            custom_users = json.load(f)
+            users.update(custom_users)
+
+    return users
+
 
 def load_ProductDB():
     with open(file_productdb) as f:
