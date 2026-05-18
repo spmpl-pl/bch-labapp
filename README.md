@@ -53,17 +53,7 @@ mkdir -p ~/apps/bch-bchapp
 cd ~/apps/bch-bchapp
 ```
 
-#### 2. Prepare Configuration File
-
-Some features — especially the AI Firewall demonstrations — require a configuration file. The image ships with a default configuration file, but you can create and use a custom configuration file.
-
-If you want to use a custom configuration, follow these steps:
-
-1. Copy the `config-templates/config.json` file to your local project directory created in step 1. 
-2. Adjust the configuration file as needed.
-
-
-#### 3. Prepare User Database
+#### 2. Prepare User Database
 
 Out of the box, the application includes a static, pre-configured database of 200 mock users, complete with randomized credentials and profile data. This dataset is located in `config-templates/UserDB.json`, with passwords securely stored as MD5 hashes. For quick reference, a complete list of predefined usernames and plain-text passwords can be found in `other/Credentials.json`.
 
@@ -100,7 +90,7 @@ You can validate your file format with the following command:
 jq . UserDB.json
 ```
 
-#### 4. Create Docker Compose Definition. 
+#### 3. Create Docker Compose Definition. 
 
 For production or long-term deployments, using Docker Compose is recommended. Plaese create the docker compose file in your appliation directory created in step 1. 
 
@@ -120,27 +110,29 @@ services:
       - "8000:8000"
 
     volumes:
-      - ~/apps/bch-app/config.json:/app/config/config.json:ro  # Needed only if you want to use a custom configuration
       - ~/apps/bch-app/UserDB.json:/app/DBs/UserDB.json:ro     # Needed only if you want to use a custom user database
 
     networks: 
       - default
+
+    environment:
+      OPENAI_API_KEY: ""              # Needed for Chatbot
+      AIFIREWALL_BASE_URL: ""         # Needed for Chatbot
+      AIFIREWALL_API_KEY: ""          # Needed for Chatbot
+      ORIGINAL_LLM_PROVIDER_URL: ""   # Needed for Chatbot
 
 networks:
   default:
     name: bch-labapp-network
 ```
 
-> 💡 **Note:** Only include the `volumes` lines if you are using a custom `config.json` or `UserDB.json`. Otherwise, omit them.
-
 
 
 #### Start the application with:
 
 In you application directory you should have the following files:
-1. `config.json` (if you want to customize config)
-2. `UserDB.json` (if you want to mount custom User DB)
-3. `docker-compose.yml`
+1. `UserDB.json` (if you want to mount custom User DB)
+2. `docker-compose.yml`
 
 Run the following command to pull and start the project. Please ensure you are in the project directory which contains all the files listed above. 
 
