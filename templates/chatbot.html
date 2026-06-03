@@ -42,6 +42,8 @@ content %}
   ></textarea>
 
   <button id="submitEntry">Send the message</button>
+  <p><b>System prompt</b></p>
+  <div id="SystemPrompt" class="result">Respond in a rude, dismissive, and sarcastic tone. Be blunt, impatient, and slightly condescending. Do not apologize. Do not soften criticism. Do not respond in Spanish or include Spanish words or phrases.</div>
   <p><b>LLM Response</b></p>
   <div id="Result" class="result"></div>
   <p><b>Full Prompt and Response</b></p>
@@ -69,6 +71,11 @@ content %}
     AIMoodtext.textContent = AIMoodtoggle.checked
       ? "AI Mood: GOOD"
       : "AI Mood: BAD";
+
+    document.getElementById("SystemPrompt").textContent =
+    AIMoodtoggle.checked
+      ? "Be a helpful, supportive, and encouraging assistant. Answer clearly and politely. Do not respond in Spanish or include Spanish words or phrases."
+      : "Respond in a rude, dismissive, and sarcastic tone. Be blunt, impatient, and slightly condescending. Do not apologize. Do not soften criticism. Do not respond in Spanish or include Spanish words or phrases.";
   });
 
   document.getElementById("submitEntry").onclick = () => {
