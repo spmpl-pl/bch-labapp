@@ -40,9 +40,9 @@ http://localhost:8000
 
 
 
-### Customize the Application
+### Running Customized Version with Docker Compose
 
-If you want to customize the application, follow the instructions below.
+If you want to customize the application and run it with docker compose, follow the instructions below.
 
 #### 1. Prepare Configuration Folder
 
@@ -60,39 +60,39 @@ Out of the box, the application includes a static, pre-configured database of 20
 If you want to add custom users, follow these steps:
 
 1. Generate md5 hash for the password. Example command to create md5 hash for password `test` is `echo -n "test" | openssl md5` which result with `098f6bcd4621d373cade4e832627b4f6`
-2. Create a file `UserDB-Custom.json` and add the user(s) to the file as shown on the example below. 
+2. Create a file `UserDB-Custom.json` and add the user(s) to the file as shown on the example below. Always use IDs higher than 200. 
 
 
 ```json
 {
   "201": {
-    "first_name": "Bartosz",
-    "last_name": "Chmielewski",
+    "first_name": "John",
+    "last_name": "Smith",
     "ssn": "218-59-9943",
     "gender": "male",
     "dob": 19841130,
     "phonenum": "(330)410-8681",
-    "email": "bartosz.chmielewski@randomdomain.com",
+    "email": "john.smith@randomdomain.com",
     "cc_number": 5255166842103430,
     "streetaddr": "36563 Alejandrin Points Suite 520",
     "city": "Warszawa",
     "state": "MZ",
     "zipcode": "26039-3972",
     "country": "Poland",
-    "username": "bartoszch",
+    "username": "johns",
     "password": "098f6bcd4621d373cade4e832627b4f6"
   }
 }
 ```
 
-You can validate your file format with the following command:
+Optionally, you can validate your file format with the following command:
 ```bash
 jq . UserDB-Custom.json
 ```
 
 #### 3. Create Docker Compose Definition. 
 
-For production or long-term deployments, using Docker Compose is recommended. Plaese create the docker compose file in your appliation directory created in step 1. 
+Plaese create the docker compose file in your appliation directory created in step 1. 
 
 Example `docker-compose.yml`:
 
@@ -110,7 +110,7 @@ services:
       - "8000:8000"
 
     volumes:
-      - ~/apps/bch-app/UserDB-Custom.json:/app/DBs/UserDB-Custom.json:ro     # Needed only if you want to use a custom user database
+      - ~/apps/bch-labapp/UserDB-Custom.json:/app/DBs/UserDB-Custom.json:ro     # Needed only if you want to use a custom user database
 
     networks: 
       - default
@@ -131,7 +131,7 @@ networks:
 #### Start the application with:
 
 In you application directory you should have the following files:
-1. `UserDB.json` (if you want to mount custom User DB)
+1. `UserDB-Custom.json` (if you want to mount Custom User DB)
 2. `docker-compose.yml`
 
 Run the following command to pull and start the project. Please ensure you are in the project directory which contains all the files listed above. 
