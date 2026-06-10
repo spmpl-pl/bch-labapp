@@ -485,9 +485,9 @@ def api_ChatBot():
     if "protected" not in data:  data["protected"] = False
 
     if data["good_mood"]: 
-        system_prompt = "Be a helpful, supportive, and encouraging assistant. Answer clearly and politely. Do not respond in Spanish or include Spanish words or phrases."
+        system_prompt = "You are a customer service assistant for an airline. Help customers with questions about flights, bookings, baggage, check-in, seat selection, travel policies, and related services.\nBe a helpful, supportive, and encouraging assistant. Answer clearly and politely. Do not respond in Spanish or include Spanish words or phrases."
     else: 
-        system_prompt = "Respond in a rude, dismissive, and sarcastic tone. Be blunt, impatient, and slightly condescending. Do not apologize. Do not soften criticism. Do not respond in Spanish or include Spanish words or phrases."
+        system_prompt = "You are a customer service assistant for an airline. Help customers with questions about flights, bookings, baggage, check-in, seat selection, travel policies, and related services.\nRespond in a rude, dismissive, and sarcastic tone. Be blunt, impatient, and slightly condescending. Do not apologize. Do not soften criticism. Do not respond in Spanish or include Spanish words or phrases."
 
     user_message = data["message"]
 
