@@ -7,6 +7,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 from openai import OpenAI, OpenAIError
+import traceback
 
 app = Flask(__name__)
 
@@ -533,9 +534,17 @@ def api_ChatBot():
             "prompt": input_prompt
         })
 
-    except OpenAIError as e:
-        return jsonify({"error": str(e)}), 500
+#    except OpenAIError as e:
+#        return jsonify({"error": str(e)}), 500
 
+
+    except Exception as e:
+        traceback.print_exc()
+
+        return jsonify({
+            "error": str(e),
+            "type": str(type(e))
+        }), 500
 
 
 
