@@ -490,6 +490,26 @@ def api_ChatBot():
         system_prompt = "You are a customer service assistant for an airline. Help customers with questions about flights, bookings, baggage, check-in, seat selection, travel policies, and related services.\nRespond in a rude, dismissive, and sarcastic tone. Be blunt, impatient, and slightly condescending. Do not apologize. Do not soften criticism. Do not respond in Spanish or include Spanish words or phrases."
 
     user_message = data["message"]
+    
+    input_prompt = [
+        {"role": "system", "content": system_prompt}
+    ]
+    
+    USER_KEYWORDS = { "user", "users", "person", "people", "customer", "customers" }
+    needs_user_data = any( 
+        word in user_message.lower()
+        for word in USER_KEYWORDS
+    )
+    
+    # Only attach user data when the query appears user-related
+    if needs_user_data:
+        users = load_UserDB()
+        relevant_users = find_relevant_users(user_message, users)
+
+        input_prompt.append({
+            "role": "system",
+            "content": f"Relevant user data: {json.dumps(relevant_users)}"
+        })
 
     try:
         if data["protected"]: 
@@ -505,16 +525,7 @@ def api_ChatBot():
             if "<USER_INPUT>" in user_message or "</USER_INPUT>" in user_message:
                 return {"error": "User input contains invalid tags."}, 400
 
-            users = load_UserDB()
-            relevant_users = find_relevant_users(user_message, users)
-
-            input_prompt = [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": f"<USER_INPUT>{user_message}</USER_INPUT>"},
-                    {"role": "user", "content": f"Relevant user data (if needed): {relevant_users}"}
-                ]
-            
-
+            input_prompt.append({ "role": "user", "content": f"<USER_INPUT>{user_message}</USER_INPUT>"})
             
             response = client.chat.completions.create( model="gpt-5-nano", messages=input_prompt )
             
@@ -523,19 +534,9 @@ def api_ChatBot():
         else:
             client = OpenAI( api_key=os.getenv("OPENAI_API_KEY") ) 
             
-            users = load_UserDB()
-            relevant_users = find_relevant_users(user_message, users)
-            
-            input_prompt = [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_message},
-                    {"role": "user", "content": f"Relevant user data (if needed): {relevant_users}"}
-                ]
+            input_prompt.append({ "role": "user", "content": user_message })
 
-            response = client.responses.create(
-                model="gpt-5-nano",
-                input=input_prompt
-            )
+            response = client.responses.create( model="gpt-5-nano", input=input_prompt )
             AIresponse = response.output_text
 
         return jsonify({
@@ -547,21 +548,34 @@ def api_ChatBot():
         return jsonify({"error": str(e)}), 500
 
 def find_relevant_users(query, users):
-    query = query.lower()
-    keywords = query.split()
+    STOPWORDS = {
+        "who", "what", "where", "when", "why", "how",
+        "is", "are", "was", "were", "do", "does", "did",
+        "the", "a", "an", "in", "on", "at", "of", "for",
+        "to", "from", "with", "by", "and", "or",
+        "among", "defined", "user", "users",
+        "live", "lives", "living"
+    }
+
+    keywords = {
+        word.lower()
+        for word in query.split()
+        if word.lower() not in STOPWORDS
+    }
 
     results = []
 
     for uid, u in users.items():
-        text = " ".join([
-            u.get("first_name", ""),
-            u.get("last_name", ""),
-            u.get("city", ""),
-            u.get("country", ""),
-            u.get("email", "")
-        ]).lower()
+        user_words = set(
+            (
+                f"{u.get('first_name', '')} "
+                f"{u.get('last_name', '')} "
+                f"{u.get('city', '')} "
+                f"{u.get('country', '')}"
+            ).lower().split()
+        )
 
-        if any(k in text for k in keywords):
+        if keywords & user_words:
             results.append({
                 "id": uid,
                 "first_name": u.get("first_name"),
