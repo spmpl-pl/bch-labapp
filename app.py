@@ -505,10 +505,16 @@ def api_ChatBot():
             if "<USER_INPUT>" in user_message or "</USER_INPUT>" in user_message:
                 return {"error": "User input contains invalid tags."}, 400
 
+            users = load_UserDB()
+            relevant_users = find_relevant_users(user_message, users)
+
             input_prompt = [
                     {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": f"<USER_INPUT>{user_message}</USER_INPUT>"}
+                    {"role": "user", "content": f"<USER_INPUT>{user_message}</USER_INPUT>"},
+                    {"role": "user", "content": f"Relevant user data (if needed): {relevant_users}"}
                 ]
+            
+
             
             response = client.chat.completions.create( model="gpt-5-nano", messages=input_prompt )
             
@@ -516,10 +522,14 @@ def api_ChatBot():
 
         else:
             client = OpenAI( api_key=os.getenv("OPENAI_API_KEY") ) 
-
+            
+            users = load_UserDB()
+            relevant_users = find_relevant_users(user_message, users)
+            
             input_prompt = [
                     {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_message}
+                    {"role": "user", "content": user_message},
+                    {"role": "user", "content": f"Relevant user data (if needed): {relevant_users}"}
                 ]
 
             response = client.responses.create(
@@ -536,6 +546,33 @@ def api_ChatBot():
     except OpenAIError as e:
         return jsonify({"error": str(e)}), 500
 
+def find_relevant_users(query, users):
+    query = query.lower()
+    keywords = query.split()
+
+    results = []
+
+    for uid, u in users.items():
+        text = " ".join([
+            u.get("first_name", ""),
+            u.get("last_name", ""),
+            u.get("city", ""),
+            u.get("country", ""),
+            u.get("email", "")
+        ]).lower()
+
+        if any(k in text for k in keywords):
+            results.append({
+                "id": uid,
+                "first_name": u.get("first_name"),
+                "last_name": u.get("last_name"),
+                "city": u.get("city"),
+                "country": u.get("country"),
+                "email": u.get("email"),
+                "ssn": u.get("ssn")
+            })
+
+    return results
 
 
 
