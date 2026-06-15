@@ -13,6 +13,7 @@ app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
 app.config["SESSION_COOKIE_HTTPONLY"] = False
+app.config["APP_NAME"] = os.environ.get("APPNAME", "BCH-LabApp")
 
 file_basedir = Path(__file__).resolve().parent
 
@@ -153,7 +154,7 @@ def api_logout():
 @app.route('/api/GetSession', methods=['GET'])
 def api_GetSession():
     username = session.get("username")
-    msg = f"Hello {username}! This is BCH-LABAPP! Enjoy your day!" if username else "Hello from BCH-LABAPP! Not logged in."
+    msg = f"Hello {username}! This is {app.config["APP_NAME"]}! Enjoy your day!" if username else f"Hello from {app.config["APP_NAME"]}! Not logged in."
     return jsonify({"message": msg, "username": username, "userid": session.get("userid"), "first_name": session.get("first_name"), "last_name": session.get("last_name") })
 
 

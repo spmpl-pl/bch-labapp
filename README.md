@@ -120,6 +120,7 @@ services:
       AIFIREWALL_BASE_URL: ""         # Needed for Chatbot
       AIFIREWALL_API_KEY: ""          # Needed for Chatbot
       ORIGINAL_LLM_PROVIDER_URL: ""   # Needed for Chatbot
+      APPNAME: "MyAppName"            # Set name for your app. Optional. 
 
 networks:
   default:
